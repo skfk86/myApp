@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0a14">
+<title>DevArena – Sudan Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DEVARENA – SUDAN EDITION | Global CSS
+   ============================================ */
+:root {
+  --bg:       #0a0a14;
+  --bg2:      #0f0f1e;
+  --card:     #13132a;
+  --card2:    #1a1a35;
+  --border:   #2a2a4a;
+  --primary:  #7c6fff;
+  --primary2: #5b52d8;
+  --cyan:     #00d4ff;
+  --green:    #00e676;
+  --orange:   #ff9800;
+  --red:      #ff4444;
+  --gold:     #ffd600;
+  --text:     #e8e8f5;
+  --muted:    #7878a0;
+  --radius:   12px;
+  --shadow:   0 4px 24px rgba(0,0,0,0.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Cairo',sans-serif;overflow-x:hidden}
+body{display:flex;flex-direction:column;min-height:100vh}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── Selection ── */
+::selection{background:var(--primary);color:#fff}
+
+/* ============================================
+   HEADER
+   ============================================ */
+#header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,10,20,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:10px 16px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.header-row1{display:flex;align-items:center;justify-content:space-between}
+.logo{
+  font-size:1.3rem;font-weight:900;letter-spacing:1px;
+  background:linear-gradient(135deg,var(--primary),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.logo span{font-size:0.7rem;font-weight:400;display:block;-webkit-text-fill-color:var(--muted);color:var(--muted)}
+.header-badges{display:flex;align-items:center;gap:10px}
+.streak-badge{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(255,152,0,0.15);border:1px solid rgba(255,152,0,0.3);
+  border-radius:20px;padding:4px 10px;font-size:0.85rem;font-weight:700;color:var(--orange);
+  cursor:pointer;transition:all 0.2s;
+}
+.streak-badge:hover{background:rgba(255,152,0,0.25)}
+.sudan-toggle{
+  display:flex;align-items:center;gap:6px;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px;font-size:0.8rem;cursor:pointer;
+  transition:all 0.2s;user-select:none;color:var(--muted);
+}
+.sudan-toggle.active{border-color:var(--primary);color:var(--primary);background:rgba(124,111,255,0.12)}
+.sudan-toggle .flag{font-size:1rem}
+
+/* XP Bar */
+.xp-row{display:flex;align-items:center;gap:10px}
+.level-badge{
+  background:linear-gradient(135deg,var(--primary),var(--cyan));
+  color:#fff;font-size:0.7rem;font-weight:700;
+  padding:2px 8px;border-radius:10px;white-space:nowrap;min-width:52px;text-align:center;
+}
+.xp-bar-wrap{flex:1;position:relative;height:6px;background:var(--border);border-radius:6px;overflow:hidden}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--cyan));border-radius:6px;transition:width 0.6s cubic-bezier(.34,1.56,.64,1)}
+.xp-label{font-size:0.7rem;color:var(--muted);white-space:nowrap;min-width:55px;text-align:left}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+#bottom-nav{
+  position:fixed;bottom:50px;left:0;right:0;z-index:100;
+  background:rgba(10,10,20,0.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-around;padding:6px 0;
+}
+.nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 20px;border-radius:var(--radius);cursor:pointer;
+  font-size:0.7rem;color:var(--muted);transition:all 0.2s;border:none;background:none;
+  font-family:'Cairo',sans-serif;
+}
+.nav-btn .nav-icon{font-size:1.2rem}
+.nav-btn.active{color:var(--primary)}
+.nav-btn.active .nav-icon{filter:drop-shadow(0 0 6px var(--primary))}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+#main{flex:1;overflow-y:auto;padding-bottom:120px;padding-top:4px}
+
+/* ============================================
+   PAGES
+   ============================================ */
+.page{display:none;animation:fadeIn 0.3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================================
+   FEED CARDS
+   ============================================ */
+#feed-container{padding:12px;display:flex;flex-direction:column;gap:14px}
+
+.feed-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius));
+  border-radius:var(--radius);padding:16px;
+  box-shadow:var(--shadow);cursor:pointer;
+  transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s;
+  animation:cardIn 0.4s ease both;
+}
+.feed-card:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:0 8px 32px rgba(124,111,255,0.15)}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.card-type{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:2px 8px;border-radius:6px;margin-bottom:10px;
+}
+.type-challenge{background:rgba(124,111,255,0.15);color:var(--primary);border:1px solid rgba(124,111,255,0.3)}
+.type-quick{background:rgba(0,212,255,0.12);color:var(--cyan);border:1px solid rgba(0,212,255,0.25)}
+.type-tip{background:rgba(0,230,118,0.12);color:var(--green);border:1px solid rgba(0,230,118,0.25)}
+.type-repo{background:rgba(255,214,0,0.12);color:var(--gold);border:1px solid rgba(255,214,0,0.25)}
+
+.card-title{font-size:1rem;font-weight:700;margin-bottom:6px;line-height:1.4}
+.card-desc{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:12px}
+
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.diff-badge{
+  font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:6px;
+}
+.diff-easy{background:rgba(0,230,118,0.15);color:var(--green)}
+.diff-medium{background:rgba(255,152,0,0.15);color:var(--orange)}
+.diff-hard{background:rgba(255,68,68,0.15);color:var(--red)}
+
+.card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:7px 14px;border-radius:8px;font-family:'Cairo',sans-serif;font-size:0.82rem;font-weight:700;
+  cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;
+}
+.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 4px 12px rgba(124,111,255,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,111,255,0.4)}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:hover{background:rgba(124,111,255,0.1)}
+.btn-ghost{background:var(--card2);color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--text);border-color:var(--muted)}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan),#0099bb);color:#000}
+.btn-sm{padding:4px 10px;font-size:0.75rem}
+.btn-locked{background:rgba(255,68,68,0.12);color:var(--red);border:1px solid rgba(255,68,68,0.3)}
+
+/* Code snippet preview */
+.code-preview{
+  background:#0d0d20;border:1px solid var(--border);border-radius:8px;
+  padding:12px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+  color:#a8b2d8;margin-bottom:12px;overflow:hidden;max-height:100px;
+  position:relative;white-space:pre;overflow-x:auto;
+}
+.code-preview::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:30px;
+  background:linear-gradient(transparent,#0d0d20);
+}
+
+/* Repo card extras */
+.repo-meta{display:flex;gap:12px;font-size:0.75rem;color:var(--muted);margin-top:4px}
+.repo-meta span{display:flex;align-items:center;gap:3px}
+
+/* ============================================
+   CHALLENGES PAGE
+   ============================================ */
+#challenges-page{padding:12px}
+.section-title{
+  font-size:1rem;font-weight:700;padding:8px 0 12px;
+  display:flex;align-items:center;gap:8px;color:var(--text);
+}
+.section-title::before{content:'';width:4px;height:18px;background:linear-gradient(var(--primary),var(--cyan));border-radius:2px;display:block}
+.challenges-grid{display:flex;flex-direction:column;gap:12px}
+
+.challenge-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;
+  cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;
+}
+.challenge-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,111,255,0.05),transparent);
+  opacity:0;transition:opacity 0.2s;
+}
+.challenge-card:hover{border-color:var(--primary);transform:translateX(-2px)}
+.challenge-card:hover::before{opacity:1}
+.challenge-card.locked{cursor:default;opacity:0.7}
+.challenge-card.locked:hover{transform:none;border-color:var(--border)}
+.lock-overlay{
+  position:absolute;top:12px;left:12px;
+  background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.3);
+  border-radius:8px;padding:2px 8px;font-size:0.7rem;color:var(--red);
+  display:flex;align-items:center;gap:4px;
+}
+.xp-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.25);
+  border-radius:6px;padding:2px 7px;font-size:0.7rem;color:var(--gold);font-weight:700;
+}
+
+/* ============================================
+   PROFILE PAGE
+   ============================================ */
+#profile-page{padding:12px}
+.profile-hero{
+  background:linear-gradient(135deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:var(--radius);padding:24px;
+  text-align:center;margin-bottom:16px;position:relative;overflow:hidden;
+}
+.profile-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(124,111,255,0.15),transparent 70%);
+}
+.avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;margin:0 auto 12px;position:relative;
+  box-shadow:0 0 24px rgba(124,111,255,0.4);
+}
+.profile-name{font-size:1.2rem;font-weight:700;margin-bottom:4px}
+.profile-title{font-size:0.8rem;color:var(--muted);margin-bottom:16px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;position:relative}
+.stat-box{
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  border-radius:10px;padding:12px 8px;text-align:center;
+}
+.stat-value{font-size:1.4rem;font-weight:900;color:var(--primary);line-height:1}
+.stat-label{font-size:0.68rem;color:var(--muted);margin-top:4px}
+
+.achievements-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.achievement{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.achievement.locked{opacity:0.4;filter:grayscale(1)}
+.ach-icon{font-size:1.5rem}
+.ach-info .ach-name{font-size:0.8rem;font-weight:700}
+.ach-info .ach-desc{font-size:0.68rem;color:var(--muted)}
+
+/* ============================================
+   CHALLENGE MODAL (full-screen)
+   ============================================ */
+#challenge-modal{
+  position:fixed;inset:0;z-index:200;
+  background:var(--bg);overflow-y:auto;
+  transform:translateY(100%);transition:transform 0.35s cubic-bezier(.32,.72,0,1);
+}
+#challenge-modal.open{transform:translateY(0)}
+
+.modal-header{
+  position:sticky;top:0;z-index:10;
+  background:rgba(10,10,20,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+}
+.modal-back{
+  width:36px;height:36px;border-radius:10px;background:var(--card2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:1.1rem;border:1px solid var(--border);transition:all 0.2s;flex-shrink:0;
+}
+.modal-back:hover{background:var(--primary);border-color:var(--primary)}
+.modal-title{font-size:1rem;font-weight:700;flex:1}
+.modal-body{padding:16px;display:flex;flex-direction:column;gap:16px;padding-bottom:100px}
+
+.challenge-desc{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;font-size:0.88rem;line-height:1.8;
+  white-space:pre-wrap;
+}
+.challenge-desc strong{color:var(--cyan)}
+
+/* Language selector */
+.lang-tabs{display:flex;gap:8px;margin-bottom:4px}
+.lang-tab{
+  padding:6px 16px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:600;
+  border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all 0.2s;
+  font-family:'Cairo',sans-serif;
+}
+.lang-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* Code editor */
+.editor-wrap{position:relative}
+.editor-label{font-size:0.75rem;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+#code-editor{
+  width:100%;min-height:200px;
+  background:#0a0a18;border:1px solid var(--border);border-radius:10px;
+  color:#a8d8a8;font-family:'JetBrains Mono',monospace;font-size:0.82rem;
+  padding:14px;resize:vertical;outline:none;
+  transition:border-color 0.2s;line-height:1.7;
+  direction:ltr;text-align:left;
+  tab-size:2;
+}
+#code-editor:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(124,111,255,0.15)}
+
+.run-row{display:flex;gap:10px;align-items:center}
+.lang-badge{
+  background:rgba(0,212,255,0.1);color:var(--cyan);
+  border:1px solid rgba(0,212,255,0.25);border-radius:6px;
+  font-size:0.72rem;font-weight:700;padding:3px 8px;
+}
+
+/* Output area */
+.output-area{
+  background:#0a0a18;border:1px solid var(--border);border-radius:10px;padding:14px;
+  font-family:'JetBrains Mono',monospace;font-size:0.8rem;min-height:80px;
+  color:#a8b2d8;white-space:pre-wrap;direction:ltr;text-align:left;
+  display:none;
+}
+.output-area.visible{display:block}
+.output-area.success{border-color:var(--green);background:rgba(0,230,118,0.05)}
+.output-area.error{border-color:var(--red);background:rgba(255,68,68,0.05)}
+.output-area.all-pass{border-color:var(--green)}
+
+/* Test cases */
+.tests-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.tests-title{font-size:0.82rem;font-weight:700;margin-bottom:10px;color:var(--muted)}
+.test-case{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;border-bottom:1px solid var(--border);font-size:0.78rem;
+}
+.test-case:last-child{border-bottom:none}
+.test-in{color:var(--cyan);font-family:'JetBrains Mono',monospace}
+.test-out{color:var(--green);font-family:'JetBrains Mono',monospace}
+
+/* Result banner */
+.result-banner{
+  border-radius:var(--radius);padding:16px;text-align:center;
+  font-size:1rem;font-weight:700;display:none;
+  animation:bounceIn 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes bounceIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+.result-banner.success{background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);color:var(--green);display:block}
+.result-banner.fail{background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.25);color:var(--red);display:block}
+
+/* Running spinner */
+.spinner{
+  display:inline-block;width:16px;height:16px;
+  border:2px solid rgba(255,255,255,0.2);border-top-color:#fff;
+  border-radius:50%;animation:spin 0.7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============================================
+   AD SIMULATION MODAL
+   ============================================ */
+#ad-modal{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+#ad-modal.open{display:flex;animation:fadeIn 0.2s ease}
+.ad-box{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px;text-align:center;max-width:320px;width:100%;
+  position:relative;
+}
+.ad-box h3{font-size:1rem;margin-bottom:6px}
+.ad-box p{font-size:0.82rem;color:var(--muted);margin-bottom:20px}
+.ad-fake{
+  background:rgba(255,255,255,0.04);border:2px dashed var(--border);
+  border-radius:8px;padding:24px 16px;margin-bottom:20px;
+  font-size:0.78rem;color:var(--muted);
+}
+/* AdMob placeholder comment below */
+/* TODO: Replace #ad-fake with actual AdMob rewarded ad SDK call
+   AdMob App ID: ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX
+   Rewarded Ad Unit ID: ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX */
+.ad-countdown{
+  width:52px;height:52px;border-radius:50%;
+  border:3px solid var(--primary);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;font-weight:900;color:var(--primary);
+  margin:0 auto 16px;
+  background:conic-gradient(var(--primary) 0deg, var(--border) 0deg);
+  transition:background 0.1s;
+}
+.ad-skip{display:none;font-size:0.78rem;color:var(--muted);cursor:pointer;text-decoration:underline}
+.ad-skip.show{display:block}
+
+/* ============================================
+   INTERSTITIAL MODAL
+   ============================================ */
+#interstitial{
+  position:fixed;inset:0;z-index:250;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+#interstitial.open{display:flex;animation:fadeIn 0.2s}
+.inter-box{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;max-width:320px;width:100%;text-align:center;
+}
+/* TODO: Replace with AdMob Interstitial Ad
+   Interstitial Unit ID: ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX */
+.inter-close{
+  position:absolute;top:12px;left:12px;
+  width:28px;height:28px;border-radius:6px;background:var(--card2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:0.8rem;color:var(--muted);border:1px solid var(--border);
+}
+
+/* ============================================
+   TOAST NOTIFICATION
+   ============================================ */
+#toast{
+  position:fixed;bottom:115px;left:50%;transform:translateX(-50%) translateY(20px);
+  z-index:400;background:var(--card2);border:1px solid var(--border);
+  border-radius:30px;padding:10px 20px;font-size:0.85rem;font-weight:600;
+  white-space:nowrap;opacity:0;transition:all 0.3s;pointer-events:none;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.success{border-color:var(--green);color:var(--green)}
+#toast.error{border-color:var(--red);color:var(--red)}
+#toast.info{border-color:var(--cyan);color:var(--cyan)}
+#toast.xp{border-color:var(--gold);color:var(--gold)}
+
+/* ============================================
+   BANNER AD (bottom)
+   ============================================ */
+#banner-ad{
+  position:fixed;bottom:0;left:0;right:0;height:50px;
+  background:#111122;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;z-index:99;
+  font-size:0.75rem;color:var(--muted);gap:8px;
+}
+/* TODO: Replace with AdMob Banner Ad
+   Banner Ad Unit ID: ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX
+   Remove the placeholder div and initialize AdMob banner here */
+.ad-label{font-size:0.6rem;color:var(--border);letter-spacing:1px;text-transform:uppercase}
+
+/* ============================================
+   XP GAIN ANIMATION
+   ============================================ */
+.xp-pop{
+  position:fixed;top:80px;right:20px;z-index:500;
+  font-size:1.2rem;font-weight:900;color:var(--gold);
+  text-shadow:0 0 20px var(--gold);
+  animation:xpPop 1.5s ease forwards;pointer-events:none;
+}
+@keyframes xpPop{
+  0%{opacity:0;transform:translateY(0) scale(0.5)}
+  20%{opacity:1;transform:translateY(-10px) scale(1.2)}
+  80%{opacity:1;transform:translateY(-40px) scale(1)}
+  100%{opacity:0;transform:translateY(-60px) scale(0.8)}
+}
+
+/* ============================================
+   LOADING INDICATOR
+   ============================================ */
+#feed-loading{
+  text-align:center;padding:20px;color:var(--muted);font-size:0.85rem;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+
+/* Empty state */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .empty-icon{font-size:2.5rem;margin-bottom:10px}
+.empty-state p{font-size:0.85rem}
+
+/* Refresh button */
+.refresh-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 12px;margin:0 0 4px;
+}
+.refresh-btn{
+  display:flex;align-items:center;gap:5px;
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:5px 12px;font-size:0.75rem;color:var(--muted);cursor:pointer;
+  transition:all 0.2s;font-family:'Cairo',sans-serif;
+}
+.refresh-btn:hover{border-color:var(--primary);color:var(--primary)}
+.refresh-btn.spinning svg{animation:spin 0.7s linear infinite}
+
+/* Streak welcome banner */
+#streak-banner{
+  margin:12px;border-radius:var(--radius);padding:14px 16px;
+  background:linear-gradient(135deg,rgba(255,152,0,0.12),rgba(255,68,68,0.08));
+  border:1px solid rgba(255,152,0,0.25);display:none;
+  animation:fadeIn 0.5s ease;
+}
+#streak-banner.show{display:flex;align-items:center;gap:12px}
+.streak-fire{font-size:2rem;line-height:1}
+.streak-text{flex:1}
+.streak-text h3{font-size:0.9rem;font-weight:700;color:var(--orange)}
+.streak-text p{font-size:0.75rem;color:var(--muted);margin-top:2px}
+</style>
+</head>
+
+<body>
+
+<!-- ====== HEADER ====== -->
+<div id="header">
+  <div class="header-row1">
+    <div class="logo">
+      DevArena
+      <span>🇸🇩 Sudan Edition</span>
+    </div>
+    <div class="header-badges">
+      <div class="streak-badge" onclick="showStreakInfo()" id="streak-badge">
+        🔥 <span id="streak-count">0</span>
+      </div>
+      <div class="sudan-toggle" id="sudan-toggle" onclick="toggleSudanMode()">
+        <span class="flag">🟢</span>
+        <span id="toggle-label">عادي</span>
+      </div>
+    </div>
+  </div>
+  <div class="xp-row">
+    <div class="level-badge" id="level-badge">المستوى 1</div>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar" id="xp-bar" style="width:0%"></div>
+    </div>
+    <div class="xp-label" id="xp-label">0 / 100 XP</div>
+  </div>
+</div>
+
+<!-- ====== MAIN ====== -->
+<div id="main">
+
+  <!-- STREAK BANNER -->
+  <div id="streak-banner">
+    <div class="streak-fire">🔥</div>
+    <div class="streak-text">
+      <h3 id="streak-banner-title">اليوم 1 على التوالي!</h3>
+      <p id="streak-banner-sub">واصل كدا وما تكسر السلسلة</p>
+    </div>
+  </div>
+
+  <!-- ── FEED PAGE ── -->
+  <div id="feed-page" class="page active">
+    <div class="refresh-bar">
+      <span style="font-size:0.82rem;color:var(--muted)" id="feed-title">Smart Feed</span>
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshFeed()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        تحديث
+      </button>
+    </div>
+    <div id="feed-container"></div>
+    <div id="feed-loading">
+      <div class="spinner"></div>
+      <span id="loading-text">جاري التحميل...</span>
+    </div>
+  </div>
+
+  <!-- ── CHALLENGES PAGE ── -->
+  <div id="challenges-page" class="page">
+    <div class="section-title">⚡ جميع التحديات</div>
+    <div class="challenges-grid" id="challenges-grid"></div>
+  </div>
+
+  <!-- ── PROFILE PAGE ── -->
+  <div id="profile-page" class="page">
+    <div class="profile-hero">
+      <div class="avatar">👨‍💻</div>
+      <div class="profile-name" id="profile-name">مطور DevArena</div>
+      <div class="profile-title" id="profile-title-el">مبتدئ</div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-value" id="stat-xp">0</div>
+          <div class="stat-label">XP</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="stat-solved">0</div>
+          <div class="stat-label">تحدي محلول</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="stat-streak">0</div>
+          <div class="stat-label">🔥 Streak</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">🏆 الإنجازات</div>
+    <div class="achievements-list" id="achievements-list"></div>
+
+    <!-- Sudan Mode info card -->
+    <div style="margin-top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+      <div style="font-size:0.85rem;font-weight:700;margin-bottom:8px">🇸🇩 Sudan Mode</div>
+      <div style="font-size:0.78rem;color:var(--muted);line-height:1.7">
+        فعّل Sudan Mode من الهيدر للحصول على رسائل ودية باللهجة السودانية 
+        مثل "تمام يا زول 🔥" و"جرّب تاني، قربت 😎"
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== CHALLENGE MODAL ====== -->
+<div id="challenge-modal">
+  <div class="modal-header">
+    <div class="modal-back" onclick="closeChallenge()">←</div>
+    <div class="modal-title" id="modal-title">التحدي</div>
+    <div class="xp-chip" id="modal-xp">⚡ 10 XP</div>
+  </div>
+  <div class="modal-body">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="diff-badge" id="modal-diff">سهل</div>
+      <div class="card-type type-challenge">تحدي برمجي</div>
+    </div>
+
+    <div class="challenge-desc" id="modal-desc">...</div>
+
+    <!-- Language selector -->
+    <div>
+      <div class="lang-tabs">
+        <button class="lang-tab active" onclick="setLang('javascript')" id="tab-js">JavaScript</button>
+        <button class="lang-tab" onclick="setLang('python')" id="tab-py">Python</button>
+      </div>
+    </div>
+
+    <!-- Code editor -->
+    <div class="editor-wrap">
+      <div class="editor-label">
+        <span>✏️ اكتب الحل هنا</span>
+        <button class="btn btn-ghost btn-sm" onclick="resetCode()">إعادة تعيين</button>
+      </div>
+      <textarea id="code-editor" spellcheck="false" autocorrect="off" autocapitalize="off"></textarea>
+    </div>
+
+    <!-- Run button -->
+    <div class="run-row">
+      <button class="btn btn-primary" id="run-btn" onclick="runCode()" style="flex:1">
+        <span id="run-icon">▶</span>
+        <span id="run-label">تشغيل الكود</span>
+      </button>
+      <button class="btn btn-ghost" onclick="showSolution()" id="solution-btn">الحل</button>
+    </div>
+
+    <!-- Output -->
+    <div class="output-area" id="output-area"></div>
+
+    <!-- Result banner -->
+    <div class="result-banner" id="result-banner"></div>
+
+    <!-- Test cases -->
+    <div class="tests-section" id="tests-section">
+      <div class="tests-title">📋 حالات الاختبار</div>
+      <div id="test-cases-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== AD SIMULATION MODAL (Rewarded) ====== -->
+<div id="ad-modal">
+  <div class="ad-box">
+    <h3 id="ad-title">🎬 شاهد إعلاناً</h3>
+    <p id="ad-desc">شاهد إعلاناً قصيراً لفتح هذا التحدي</p>
+    <div class="ad-fake">
+      📺 إعلان وهمي<br>
+      <span style="font-size:0.7rem;color:var(--muted)">[AdMob Rewarded Ad Placeholder]</span>
+    </div>
+    <div class="ad-countdown" id="ad-countdown">3</div>
+    <div class="ad-skip" id="ad-skip" onclick="skipAd()">تخطي الإعلان ✕</div>
+  </div>
+</div>
+
+<!-- ====== INTERSTITIAL ====== -->
+<div id="interstitial">
+  <div class="inter-box" style="position:relative">
+    <div class="inter-close" id="inter-close" onclick="closeInterstitial()">✕</div>
+    <div style="font-size:2rem;margin-bottom:10px">📣</div>
+    <h3 style="margin-bottom:6px;font-size:0.95rem" id="inter-title">إعلان</h3>
+    <div style="background:rgba(255,255,255,0.04);border:2px dashed var(--border);border-radius:8px;padding:20px;margin:12px 0;font-size:0.75rem;color:var(--muted)">
+      [AdMob Interstitial Ad Placeholder]<br>
+      <!-- TODO: Replace with AdMob Interstitial SDK call -->
+    </div>
+    <p style="font-size:0.75rem;color:var(--muted)" id="inter-sub">يمكنك الإغلاق بعد 2 ثانية</p>
+  </div>
+</div>
+
+<!-- ====== TOAST ====== -->
+<div id="toast"></div>
+
+<!-- ====== BOTTOM NAV ====== -->
+<nav id="bottom-nav">
+  <button class="nav-btn active" onclick="navigate('feed')" id="nav-feed">
+    <span class="nav-icon">🏠</span>
+    <span id="nav-feed-label">الرئيسية</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('challenges')" id="nav-challenges">
+    <span class="nav-icon">⚡</span>
+    <span id="nav-chal-label">التحديات</span>
+  </button>
+  <button class="nav-btn" onclick="navigate('profile')" id="nav-profile">
+    <span class="nav-icon">👤</span>
+    <span id="nav-prof-label">ملفي</span>
+  </button>
+</nav>
+
+<!-- ====== BANNER AD ====== -->
+<div id="banner-ad">
+  <span class="ad-label">AD</span>
+  <span id="banner-text">إعلان – DevArena Sudan Edition</span>
+  <!-- TODO: Replace with AdMob Banner initialization:
+       admob.showBanner({ adId: 'ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX', position: admob.AD_POSITION.BOTTOM_CENTER }) -->
+</div>
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+<script>
+'use strict';
+
+// =============================================
+// CONFIG & CONSTANTS
+// =============================================
+const CFG = {
+  CACHE_TTL: 60 * 60 * 1000,
+  XP_PER_EASY: 10,
+  XP_PER_MED: 20,
+  XP_PER_HARD: 50,
+  // PISTON_URL أُزيل – الكود يشتغل محلياً الآن
+  GITHUB_URL: 'https://api.github.com/search/repositories',
+  QUOTABLE_URL: 'https://api.quotable.io/quotes/random',
+  FEED_BATCH: 5
+};
+
+// =============================================
+// SUDAN MODE TEXTS
+// =============================================
+const T = {
+  loading:        { en: 'جاري التحميل...', sd: 'شايل الكود شوية...' },
+  correct:        { en: 'إجابة صحيحة! 🎉', sd: 'ما شاء الله تمام 🔥' },
+  wrong:          { en: 'حاول مرة أخرى 💪', sd: 'أُووبس، جرب تاني 😅' },
+  run_btn:        { en: 'تشغيل الكود', sd: 'شغّل يا زول 🚀' },
+  won:            { en: 'فزت! أحسنت 🎉', sd: 'كدا شغلك تقيل 👏' },
+  try_again:      { en: 'جرب مرة أخرى', sd: 'جرّب تاني، قربت 😎' },
+  share_copied:   { en: 'تم النسخ! 📋', sd: 'انتهى، انسخ وافتخر 😎' },
+  challenge_rdy:  { en: 'تحدٍّ جديد جاهز!', sd: 'تحدي جديد جاهز… جاهز ولا نايم؟ 😏' },
+  welcome_back:   { en: 'مرحباً بعودتك! 👋', sd: 'رجعت؟ الكود كان منتظرك 🔥' },
+  unlock_title:   { en: 'شاهد إعلاناً للفتح', sd: 'ابص إعلان صغير وافتح 😁' },
+  unlock_desc:    { en: 'شاهد إعلاناً قصيراً لفتح هذا التحدي الصعب', sd: 'شوية دقايق ومتفرّج، والتحدي بتاعك 🎬' },
+  feed_title:     { en: 'Smart Feed', sd: '🇸🇩 Feed السوداني' },
+  streak_msg:     { en: n => `اليوم ${n} على التوالي! 🔥`, sd: n => `دا يومك الـ ${n} على التوالي! 🔥` },
+  streak_sub:     { en: 'واصل وما تكسر السلسلة', sd: 'واصل كدا وما تنام بدون كود 😏' },
+  xp_gained:      { en: n => `+${n} XP`, sd: n => `+${n} XP كسبتها 💪` },
+  level_up:       { en: lvl => `ارتقيت للمستوى ${lvl}! 🚀`, sd: lvl => `يا سلام! وصلت المستوى ${lvl} 🎊` },
+  solution_btn:   { en: 'الحل', sd: 'الحل (الغش 😂)' },
+  refresh:        { en: 'تحديث', sd: 'جيب كود جديد 🔃' },
+  solve_first:    { en: 'احل التحدي أولاً لمشاهدة الحل، أو شاهد إعلاناً', sd: 'حل أولاً يا زول، أو ابص إعلان 😄' }
+};
+
+function tx(key) {
+  const obj = T[key];
+  if (!obj) return '';
+  return STATE.sudanMode ? obj.sd : obj.en;
+}
+function txFn(key, arg) {
+  const obj = T[key];
+  if (!obj) return '';
+  const fn = STATE.sudanMode ? obj.sd : obj.en;
+  return typeof fn === 'function' ? fn(arg) : fn;
+}
+
+// =============================================
+// CHALLENGES DATA
+// =============================================
+const CHALLENGES = [
+  {
+    id: 'easy_1', title: 'مجموع أرقام المصفوفة', diff: 'easy', xp: 10, locked: false,
+    desc: 'اكتب دالة <strong>sumArray(arr)</strong> تُعيد مجموع جميع الأرقام في المصفوفة.\n\nأمثلة:\n• sumArray([1, 2, 3]) ➜ 6\n• sumArray([10, -5, 0]) ➜ 5\n• sumArray([]) ➜ 0',
+    tmpl_js: 'function sumArray(arr) {\n  // اكتب الحل هنا\n  \n}',
+    tmpl_py: 'def sum_array(arr):\n    # اكتب الحل هنا\n    pass',
+    runner_js: `\nconst _tests=[{i:[1,2,3],e:6},{i:[10,-5,0],e:5},{i:[],e:0},{i:[-1,-2],e:-3}];\nlet _pass=0;\nfor(const t of _tests){const g=sumArray(t.i);const ok=g===t.e;if(ok)_pass++;console.log((ok?'✅':'❌')+' sumArray('+JSON.stringify(t.i)+') = '+g+(ok?'':' (متوقع: '+t.e+')'));}\nconsole.log('\\n---\\n' + _pass + '/' + _tests.length + ' اختبارات نجحت');`,
+    tests: [{i:'[1,2,3]',o:'6'},{i:'[10,-5,0]',o:'5'},{i:'[]',o:'0'}],
+    solution_js: 'function sumArray(arr) {\n  return arr.reduce((sum, n) => sum + n, 0);\n}'
+  },
+  {
+    id: 'easy_2', title: 'هل النص متماثل؟', diff: 'easy', xp: 10, locked: false,
+    desc: 'اكتب دالة <strong>isPalindrome(str)</strong> تُعيد <strong>true</strong> إذا كان النص يُقرأ بنفس الطريقة من اليمين واليسار (Palindrome)، و<strong>false</strong> خلاف ذلك.\n\nأمثلة:\n• isPalindrome("racecar") ➜ true\n• isPalindrome("hello") ➜ false\n• isPalindrome("madam") ➜ true',
+    tmpl_js: 'function isPalindrome(str) {\n  // اكتب الحل هنا\n  \n}',
+    tmpl_py: 'def is_palindrome(s):\n    # اكتب الحل هنا\n    pass',
+    runner_js: `\nconst _tests=[{i:"racecar",e:true},{i:"hello",e:false},{i:"madam",e:true},{i:"a",e:true},{i:"ab",e:false}];\nlet _pass=0;\nfor(const t of _tests){const g=isPalindrome(t.i);const ok=g===t.e;if(ok)_pass++;console.log((ok?'✅':'❌')+' isPalindrome("'+t.i+'") = '+g+(ok?'':' (متوقع: '+t.e+')'));}\nconsole.log('\\n---\\n' + _pass + '/' + _tests.length + ' اختبارات نجحت');`,
+    tests: [{i:'"racecar"',o:'true'},{i:'"hello"',o:'false'},{i:'"madam"',o:'true'}],
+    solution_js: 'function isPalindrome(str) {\n  return str === str.split("").reverse().join("");\n}'
+  },
+  {
+    id: 'medium_1', title: 'FizzBuzz السوداني', diff: 'medium', xp: 20, locked: false,
+    desc: 'اكتب دالة <strong>fizzBuzz(n)</strong> تُعيد مصفوفة من 1 إلى n:\n• القابل على 3: "Fizz"\n• القابل على 5: "Buzz"\n• القابل على 3 و5: "FizzBuzz"\n• غير ذلك: الرقم نفسه كنص\n\nمثال:\nfizzBuzz(5) ➜ ["1","2","Fizz","4","Buzz"]',
+    tmpl_js: 'function fizzBuzz(n) {\n  // اكتب الحل هنا\n  \n}',
+    tmpl_py: 'def fizz_buzz(n):\n    # اكتب الحل هنا\n    pass',
+    runner_js: `\nconst got=fizzBuzz(15);\nconst exp=["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"];\nconst ok=JSON.stringify(got)===JSON.stringify(exp);\nconsole.log(ok?'✅ fizzBuzz(15) صحيح تماماً!':'❌ النتيجة: '+JSON.stringify(got)+'\\nالمتوقع: '+JSON.stringify(exp));\nconsole.log('\\n---\\n'+(ok?1:0)+'/1 اختبارات نجحت');`,
+    tests: [{i:'n=15',o:'["1","2","Fizz","4","Buzz",...]'}],
+    solution_js: 'function fizzBuzz(n) {\n  return Array.from({length:n},(_,i)=>{\n    const k=i+1;\n    if(k%15===0) return "FizzBuzz";\n    if(k%3===0) return "Fizz";\n    if(k%5===0) return "Buzz";\n    return String(k);\n  });\n}'
+  },
+  {
+    id: 'medium_2', title: 'إيجاد العناصر المكررة', diff: 'medium', xp: 20, locked: false,
+    desc: 'اكتب دالة <strong>findDuplicates(arr)</strong> تُعيد مصفوفة بالعناصر التي تظهر أكثر من مرة (بدون تكرار في الناتج).\n\nأمثلة:\n• findDuplicates([1,2,3,2,4,3]) ➜ [2,3]\n• findDuplicates([1,2,3]) ➜ []\n• findDuplicates([1,1,1]) ➜ [1]',
+    tmpl_js: 'function findDuplicates(arr) {\n  // اكتب الحل هنا\n  \n}',
+    tmpl_py: 'def find_duplicates(arr):\n    # اكتب الحل هنا\n    pass',
+    runner_js: `\nconst _tests=[{i:[1,2,3,2,4,3],e:[2,3]},{i:[1,2,3],e:[]},{i:[1,1,1],e:[1]}];\nlet _pass=0;\nfor(const t of _tests){const g=[...findDuplicates(t.i)].sort((a,b)=>a-b);const exp=[...t.e].sort((a,b)=>a-b);const ok=JSON.stringify(g)===JSON.stringify(exp);if(ok)_pass++;console.log((ok?'✅':'❌')+' findDuplicates('+JSON.stringify(t.i)+') = '+JSON.stringify(g)+(ok?'':' (متوقع: '+JSON.stringify(exp)+')'));}\nconsole.log('\\n---\\n' + _pass + '/' + _tests.length + ' اختبارات نجحت');`,
+    tests: [{i:'[1,2,3,2,4,3]',o:'[2,3]'},{i:'[1,2,3]',o:'[]'},{i:'[1,1,1]',o:'[1]'}],
+    solution_js: 'function findDuplicates(arr) {\n  const seen = new Set(), dups = new Set();\n  for(const x of arr) seen.has(x) ? dups.add(x) : seen.add(x);\n  return [...dups];\n}'
+  },
+  {
+    id: 'hard_1', title: 'البحث الثنائي', diff: 'hard', xp: 50, locked: true,
+    desc: 'اكتب دالة <strong>binarySearch(arr, target)</strong> تبحث في مصفوفة مرتبة تصاعدياً عن العنصر المطلوب وتُعيد فهرسه، أو -1 إذا لم يوجد.\n\n⚠️ يجب أن تكون الخوارزمية O(log n) — لا تستخدم indexOf!\n\nأمثلة:\n• binarySearch([1,3,5,7,9], 5) ➜ 2\n• binarySearch([1,3,5,7,9], 4) ➜ -1',
+    tmpl_js: 'function binarySearch(arr, target) {\n  // استخدم الخوارزمية O(log n)\n  let left = 0, right = arr.length - 1;\n  \n  // اكتب الحل هنا\n  \n  return -1;\n}',
+    tmpl_py: 'def binary_search(arr, target):\n    left, right = 0, len(arr) - 1\n    # اكتب الحل هنا\n    return -1',
+    runner_js: `\nconst _tests=[{a:[1,3,5,7,9],t:5,e:2},{a:[1,3,5,7,9],t:4,e:-1},{a:[2,4,6,8],t:8,e:3},{a:[1],t:1,e:0},{a:[],t:1,e:-1}];\nlet _pass=0;\nfor(const t of _tests){const g=binarySearch(t.a,t.t);const ok=g===t.e;if(ok)_pass++;console.log((ok?'✅':'❌')+' binarySearch('+JSON.stringify(t.a)+','+t.t+') = '+g+(ok?'':' (متوقع: '+t.e+')'));}\nconsole.log('\\n---\\n' + _pass + '/' + _tests.length + ' اختبارات نجحت');`,
+    tests: [{i:'([1,3,5,7,9], 5)',o:'2'},{i:'([1,3,5,7,9], 4)',o:'-1'}],
+    solution_js: 'function binarySearch(arr, target) {\n  let left = 0, right = arr.length - 1;\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n    if (arr[mid] === target) return mid;\n    else if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}'
+  },
+  {
+    id: 'hard_2', title: 'تسطيح المصفوفة المتداخلة', diff: 'hard', xp: 50, locked: true,
+    desc: 'اكتب دالة <strong>flatten(arr)</strong> تُسطّح مصفوفة متداخلة بأي عمق إلى مصفوفة أحادية الأبعاد.\n\n⚠️ ممنوع استخدام Array.flat() !\n\nأمثلة:\n• flatten([1,[2,[3,[4]]]]) ➜ [1,2,3,4]\n• flatten([[1,2],[3,4]]) ➜ [1,2,3,4]\n• flatten([1,2,3]) ➜ [1,2,3]',
+    tmpl_js: 'function flatten(arr) {\n  // لا تستخدم .flat()\n  \n}',
+    tmpl_py: 'def flatten(arr):\n    # اكتب الحل هنا\n    pass',
+    runner_js: `\nconst _tests=[{i:[1,[2,[3,[4]]]],e:[1,2,3,4]},{i:[[1,2],[3,4]],e:[1,2,3,4]},{i:[1,2,3],e:[1,2,3]},{i:[],e:[]}];\nlet _pass=0;\nfor(const t of _tests){const g=flatten(t.i);const ok=JSON.stringify(g)===JSON.stringify(t.e);if(ok)_pass++;console.log((ok?'✅':'❌')+' flatten('+JSON.stringify(t.i)+') = '+JSON.stringify(g)+(ok?'':' (متوقع: '+JSON.stringify(t.e)+')'));}\nconsole.log('\\n---\\n' + _pass + '/' + _tests.length + ' اختبارات نجحت');`,
+    tests: [{i:'[1,[2,[3,[4]]]]',o:'[1,2,3,4]'},{i:'[[1,2],[3,4]]',o:'[1,2,3,4]'}],
+    solution_js: 'function flatten(arr) {\n  return arr.reduce((acc, val) =>\n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val)\n  , []);\n}'
+  }
+];
+
+const QUICK_CODES = [
+  { title: 'Array Destructuring', lang: 'JS', code: 'const [first, second, ...rest] = [1, 2, 3, 4, 5];\nconsole.log(first);  // 1\nconsole.log(rest);   // [3, 4, 5]', desc: 'تفكيك المصفوفة باستخدام destructuring' },
+  { title: 'Optional Chaining ?.', lang: 'JS', code: 'const user = null;\nconst name = user?.profile?.name ?? "زائر";\nconsole.log(name);  // "زائر"', desc: 'تجنّب null errors بأناقة' },
+  { title: 'Object Shorthand', lang: 'JS', code: 'const name = "علوش";\nconst age = 25;\nconst user = { name, age };  // اختصار جميل\nconsole.log(user);', desc: 'اختصار كتابة properties في الأوبجكت' },
+  { title: 'List Comprehension', lang: 'PY', code: 'squares = [x**2 for x in range(10) if x % 2 == 0]\nprint(squares)  # [0, 4, 16, 36, 64]', desc: 'List comprehension في Python بأسطر قليلة' },
+  { title: 'Async/Await Pattern', lang: 'JS', code: 'async function fetchData(url) {\n  try {\n    const res = await fetch(url);\n    return await res.json();\n  } catch(err) {\n    console.error("خطأ:", err);\n  }\n}', desc: 'نمط async/await للتعامل مع APIs' }
+];
+
+const LOCAL_TIPS = [
+  { text: 'كل ميزة جديدة تتعلمها في البرمجة هي استثمار حقيقي في مستقبلك.', author: 'حكمة المبرمجين' },
+  { text: 'الكود النظيف الذي يُقرأ بسهولة يساوي أضعاف الكود الذكي الغامض.', author: 'Robert C. Martin' },
+  { text: 'أفضل طريقة لتعلم البرمجة هي حل مشاكل حقيقية تهمك أنت.', author: 'Linus Torvalds' },
+  { text: 'لا تخف من الأخطاء – كل error رسالة من الكومبيوتر يريد مساعدتك.', author: 'DevArena Sudan' },
+  { text: 'Git commit يومياً يحفظ عملك ويحفظ عقلك.', author: 'حكمة المبرمجين' },
+  { text: 'اكتب الكود الذي يريد القارئ أن يكتبه، لا الكود الذي يدهشه.', author: 'Brian Kernighan' }
+];
+
+// =============================================
+// APPLICATION STATE
+// =============================================
+const STATE = {
+  xp:           0,
+  level:        1,
+  streak:       0,
+  lastVisit:    null,
+  sudanMode:    false,
+  unlockedIds:  [],
+  solvedIds:    [],
+  feedItems:    [],
+  feedOffset:   0,
+  isLoading:    false,
+  githubRepos:  [],
+  quotes:       [],
+  currentChallenge: null,
+  currentLang:  'javascript',
+  adCallback:   null,
+  solutionShown: false,
+  interTimer:   null,
+  currentPage:  'feed'
+};
+
+// =============================================
+// LOCALSTORAGE HELPERS
+// =============================================
+function saveState() {
+  localStorage.setItem('dva_xp', STATE.xp);
+  localStorage.setItem('dva_level', STATE.level);
+  localStorage.setItem('dva_streak', STATE.streak);
+  localStorage.setItem('dva_lastVisit', STATE.lastVisit || '');
+  localStorage.setItem('dva_sudanMode', STATE.sudanMode ? '1' : '0');
+  localStorage.setItem('dva_unlocked', JSON.stringify(STATE.unlockedIds));
+  localStorage.setItem('dva_solved', JSON.stringify(STATE.solvedIds));
+}
+
+function loadState() {
+  STATE.xp         = parseInt(localStorage.getItem('dva_xp') || '0');
+  STATE.level      = parseInt(localStorage.getItem('dva_level') || '1');
+  STATE.streak     = parseInt(localStorage.getItem('dva_streak') || '0');
+  STATE.lastVisit  = localStorage.getItem('dva_lastVisit') || null;
+  STATE.sudanMode  = localStorage.getItem('dva_sudanMode') === '1';
+  STATE.unlockedIds = JSON.parse(localStorage.getItem('dva_unlocked') || '[]');
+  STATE.solvedIds   = JSON.parse(localStorage.getItem('dva_solved') || '[]');
+}
+
+// =============================================
+// API CACHE MANAGER
+// Smart caching: saves to localStorage for 1 hour
+// =============================================
+const ApiCache = {
+  get(key) {
+    try {
+      const raw = localStorage.getItem('dva_cache_' + key);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (Date.now() - data.ts > CFG.CACHE_TTL) {
+        localStorage.removeItem('dva_cache_' + key);
+        return null;
+      }
+      return data.val;
+    } catch { return null; }
+  },
+  set(key, val) {
+    try {
+      localStorage.setItem('dva_cache_' + key, JSON.stringify({ ts: Date.now(), val }));
+    } catch(e) {
+      // Ignore storage quota errors
+      console.warn('Cache write failed:', e.message);
+    }
+  },
+  clear(key) {
+    localStorage.removeItem('dva_cache_' + key);
+  },
+  clearAll() {
+    Object.keys(localStorage).forEach(k => {
+      if (k.startsWith('dva_cache_')) localStorage.removeItem(k);
+    });
+  }
+};
+
+// =============================================
+// STREAK SYSTEM
+// =============================================
+function checkStreak() {
+  const today = new Date().toDateString();
+  const last  = STATE.lastVisit;
+
+  if (!last) {
+    STATE.streak = 1;
+  } else if (last === today) {
+    // Already visited today, no change
+    return;
+  } else {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (last === yesterday) {
+      STATE.streak++;
+    } else {
+      STATE.streak = 1; // Streak broken
+    }
+  }
+  STATE.lastVisit = today;
+  saveState();
+  showStreakBanner();
+}
+
+function showStreakBanner() {
+  const banner = document.getElementById('streak-banner');
+  const title  = document.getElementById('streak-banner-title');
+  const sub    = document.getElementById('streak-banner-sub');
+  title.textContent = txFn('streak_msg', STATE.streak);
+  sub.textContent   = tx('streak_sub');
+  banner.classList.add('show');
+  setTimeout(() => banner.classList.remove('show'), 5000);
+}
+
+function showStreakInfo() {
+  showToast(`🔥 ${STATE.streak} ${STATE.streak === 1 ? 'يوم' : 'أيام'} متتالية!`, 'info');
+}
+
+// =============================================
+// XP + LEVEL SYSTEM
+// =============================================
+function addXP(amount) {
+  const oldLevel = STATE.level;
+  STATE.xp += amount;
+  STATE.level = Math.floor(STATE.xp / 100) + 1;
+
+  saveState();
+  updateXPUI();
+
+  // Show XP gain popup
+  showXPPop(txFn('xp_gained', amount));
+
+  // Level up?
+  if (STATE.level > oldLevel) {
+    setTimeout(() => showToast(txFn('level_up', STATE.level), 'success'), 800);
+  }
+}
+
+function updateXPUI() {
+  const xpInLevel = STATE.xp % 100;
+  const pct = xpInLevel;
+
+  document.getElementById('xp-bar').style.width = pct + '%';
+  document.getElementById('xp-label').textContent = `${xpInLevel} / 100 XP`;
+  document.getElementById('level-badge').textContent = `المستوى ${STATE.level}`;
+  document.getElementById('streak-count').textContent = STATE.streak;
+
+  // Profile page
+  const sxp = document.getElementById('stat-xp');
+  const ssolved = document.getElementById('stat-solved');
+  const sstreak = document.getElementById('stat-streak');
+  if (sxp) sxp.textContent = STATE.xp;
+  if (ssolved) ssolved.textContent = STATE.solvedIds.length;
+  if (sstreak) sstreak.textContent = STATE.streak;
+
+  // Profile title
+  const titles = [
+    [0, 'مبتدئ'], [200, 'متعلم نشيط'], [500, 'مطور واعد'],
+    [1000, 'مبرمج محترف'], [2000, 'خبير DevArena']
+  ];
+  let title = 'مبتدئ';
+  for (const [min, lbl] of titles) { if (STATE.xp >= min) title = lbl; }
+  const tel = document.getElementById('profile-title-el');
+  if (tel) tel.textContent = title;
+}
+
+function showXPPop(text) {
+  const el = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = text;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1500);
+}
+
+// =============================================
+// TOAST NOTIFICATION
+// =============================================
+let toastTimer = null;
+function showToast(msg, type = 'info', duration = 2500) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.className = '';
+  }, duration);
+}
+
+// =============================================
+// FEED ENGINE
+// Mixes local challenges, GitHub repos, tips
+// =============================================
+async function fetchGitHubRepos(force = false) {
+  const cacheKey = 'gh_repos';
+  if (!force) {
+    const cached = ApiCache.get(cacheKey);
+    if (cached) { STATE.githubRepos = cached; return; }
+  }
+  try {
+    const queries = ['javascript+algorithms', 'python+beginner+projects', 'open-source+cli+tools'];
+    const q = queries[Math.floor(Math.random() * queries.length)];
+    const res = await fetch(`${CFG.GITHUB_URL}?q=${q}&sort=stars&per_page=12`);
+    if (!res.ok) throw new Error('GitHub API error');
+    const data = await res.json();
+    const repos = (data.items || []).map(r => ({
+      id:       'repo_' + r.id,
+      type:     'repo',
+      title:    r.full_name,
+      desc:     r.description || 'مشروع مفتوح المصدر على GitHub',
+      url:      r.html_url,
+      stars:    r.stargazers_count,
+      lang:     r.language || 'N/A',
+      forks:    r.forks_count
+    }));
+    STATE.githubRepos = repos;
+    ApiCache.set(cacheKey, repos);
+  } catch (e) {
+    console.warn('GitHub API failed:', e.message);
+    STATE.githubRepos = [];
+  }
+}
+
+async function fetchQuotes(force = false) {
+  const cacheKey = 'quotes';
+  if (!force) {
+    const cached = ApiCache.get(cacheKey);
+    if (cached) { STATE.quotes = cached; return; }
+  }
+  try {
+    const res = await fetch(`${CFG.QUOTABLE_URL}?limit=5&tags=technology`);
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const quotes = (Array.isArray(data) ? data : [data]).map(q => ({
+      type: 'tip',
+      title: 'نصيحة',
+      desc: q.content,
+      author: q.author
+    }));
+    STATE.quotes = quotes;
+    ApiCache.set(cacheKey, quotes);
+  } catch {
+    // Use local tips as fallback
+    STATE.quotes = LOCAL_TIPS.map(t => ({
+      type: 'tip',
+      title: 'نصيحة',
+      desc: t.text,
+      author: t.author
+    }));
+    ApiCache.set(cacheKey, STATE.quotes);
+  }
+}
+
+function buildFeedBatch() {
+  const items = [];
+  const offset = STATE.feedOffset;
+
+  // Rotate challenges
+  const chal = CHALLENGES[offset % CHALLENGES.length];
+  items.push({ type: 'challenge', challenge: chal });
+
+  // Quick code
+  const qc = QUICK_CODES[(offset + 1) % QUICK_CODES.length];
+  items.push({ type: 'quick', qc });
+
+  // Repo
+  if (STATE.githubRepos.length > 0) {
+    items.push(STATE.githubRepos[(offset * 2) % STATE.githubRepos.length]);
+  }
+
+  // Tip/quote
+  if (STATE.quotes.length > 0) {
+    items.push(STATE.quotes[offset % STATE.quotes.length]);
+  }
+
+  // Another challenge
+  const chal2 = CHALLENGES[(offset + 2) % CHALLENGES.length];
+  items.push({ type: 'challenge', challenge: chal2 });
+
+  STATE.feedOffset++;
+  return items;
+}
+
+function renderFeedItem(item) {
+  const el = document.createElement('div');
+  el.className = 'feed-card';
+  el.style.animationDelay = (Math.random() * 0.2) + 's';
+
+  if (item.type === 'challenge') {
+    const ch = item.challenge;
+    const solved = STATE.solvedIds.includes(ch.id);
+    const locked = ch.locked && !STATE.unlockedIds.includes(ch.id);
+    el.innerHTML = `
+      <div class="card-type type-challenge">⚡ تحدي برمجي</div>
+      <div class="card-title">${ch.title} ${solved ? '✅' : ''}</div>
+      <div class="card-desc">${ch.desc.replace(/<[^>]+>/g,'').substring(0,80)}...</div>
+      <div class="card-footer">
+        <div class="diff-badge diff-${ch.diff}">${ch.diff === 'easy' ? 'سهل' : ch.diff === 'medium' ? 'متوسط' : 'صعب'}</div>
+        <div class="card-actions">
+          <button class="btn ${locked ? 'btn-locked' : 'btn-primary'}" onclick="openChallenge('${ch.id}')">
+            ${locked ? '🔒 مقفل' : '▶ حل التحدي'}
+          </button>
+          <button class="btn btn-ghost" onclick="shareItem(event, '${encodeURIComponent(ch.title)}')">↗</button>
+        </div>
+      </div>`;
+
+  } else if (item.type === 'quick') {
+    const qc = item.qc;
+    el.innerHTML = `
+      <div class="card-type type-quick">⚡ ${qc.lang} Snippet</div>
+      <div class="card-title">${qc.title}</div>
+      <div class="card-desc">${qc.desc}</div>
+      <div class="code-preview">${escHtml(qc.code)}</div>
+      <div class="card-footer">
+        <div></div>
+        <div class="card-actions">
+          <button class="btn btn-cyan btn-sm" onclick="copyCode(event, '${encodeURIComponent(qc.code)}')">نسخ الكود</button>
+          <button class="btn btn-ghost" onclick="shareItem(event, '${encodeURIComponent(qc.title + ': ' + qc.code)}')">↗</button>
+        </div>
+      </div>`;
+
+  } else if (item.type === 'repo') {
+    el.innerHTML = `
+      <div class="card-type type-repo">⭐ GitHub Project</div>
+      <div class="card-title">${escHtml(item.title)}</div>
+      <div class="card-desc">${escHtml(item.desc)}</div>
+      <div class="repo-meta">
+        <span>⭐ ${item.stars?.toLocaleString()}</span>
+        <span>🍴 ${item.forks}</span>
+        <span>💻 ${item.lang}</span>
+      </div>
+      <div class="card-footer" style="margin-top:12px">
+        <div></div>
+        <div class="card-actions">
+          <a class="btn btn-outline btn-sm" href="${item.url}" target="_blank" rel="noopener">عرض على GitHub →</a>
+          <button class="btn btn-ghost" onclick="shareItem(event, '${encodeURIComponent(item.title + ': ' + item.url)}')">↗</button>
+        </div>
+      </div>`;
+
+  } else if (item.type === 'tip') {
+    el.innerHTML = `
+      <div class="card-type type-tip">💡 نصيحة</div>
+      <div class="card-title" style="font-size:0.95rem;line-height:1.7;font-weight:600">"${escHtml(item.desc)}"</div>
+      <div class="card-desc" style="margin-top:8px;margin-bottom:0">— ${escHtml(item.author || 'مجهول')}</div>`;
+  }
+
+  return el;
+}
+
+async function loadMoreFeed() {
+  if (STATE.isLoading) return;
+  STATE.isLoading = true;
+
+  const loading = document.getElementById('feed-loading');
+  const loadingText = document.getElementById('loading-text');
+  loading.style.display = 'flex';
+  loadingText.textContent = tx('loading');
+
+  await new Promise(r => setTimeout(r, 400)); // Small delay for UX
+
+  const batch = buildFeedBatch();
+  const container = document.getElementById('feed-container');
+
+  batch.forEach(item => {
+    const el = renderFeedItem(item);
+    container.appendChild(el);
+  });
+
+  loading.style.display = 'none';
+  STATE.isLoading = false;
+}
+
+async function initFeed(force = false) {
+  if (force) {
+    document.getElementById('feed-container').innerHTML = '';
+    STATE.feedOffset = 0;
+    STATE.feedItems = [];
+    ApiCache.clearAll();
+    showToast('🔃 يجري تحديث البيانات...', 'info');
+  }
+
+  const rb = document.getElementById('refresh-btn');
+  rb.classList.add('spinning');
+
+  await Promise.all([fetchGitHubRepos(force), fetchQuotes(force)]);
+  await loadMoreFeed();
+
+  rb.classList.remove('spinning');
+  document.getElementById('feed-title').textContent = tx('feed_title');
+}
+
+async function refreshFeed() {
+  await initFeed(true);
+  showToast(STATE.sudanMode ? '✅ الفيد اتجدد يا زول!' : '✅ تم التحديث', 'success');
+}
+
+// Infinite scroll observer
+function setupInfiniteScroll() {
+  const sentinel = document.createElement('div');
+  sentinel.id = 'scroll-sentinel';
+  sentinel.style.height = '20px';
+  document.getElementById('feed-container').after(sentinel);
+
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !STATE.isLoading) {
+      loadMoreFeed();
+    }
+  }, { rootMargin: '200px' });
+  observer.observe(sentinel);
+}
+
+// =============================================
+// CHALLENGES PAGE
+// =============================================
+function renderChallengesPage() {
+  const grid = document.getElementById('challenges-grid');
+  grid.innerHTML = '';
+
+  ['easy', 'medium', 'hard'].forEach(diff => {
+    const diffLabel = diff === 'easy' ? 'سهل 🟢' : diff === 'medium' ? 'متوسط 🟡' : 'صعب 🔴';
+    const header = document.createElement('div');
+    header.style.cssText = 'font-size:0.78rem;color:var(--muted);padding:4px 0 8px;font-weight:700;letter-spacing:1px;text-transform:uppercase';
+    header.textContent = diffLabel;
+    grid.appendChild(header);
+
+    CHALLENGES.filter(c => c.diff === diff).forEach(ch => {
+      const solved  = STATE.solvedIds.includes(ch.id);
+      const locked  = ch.locked && !STATE.unlockedIds.includes(ch.id);
+      const el = document.createElement('div');
+      el.className = 'challenge-card' + (locked ? ' locked' : '');
+      el.innerHTML = `
+        ${locked ? '<div class="lock-overlay">🔒 مقفل</div>' : ''}
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div>
+            <div style="font-size:0.95rem;font-weight:700;margin-bottom:4px">${ch.title} ${solved ? '✅' : ''}</div>
+            <div style="font-size:0.78rem;color:var(--muted)">${ch.desc.replace(/<[^>]+>/g,'').substring(0,60)}...</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+            <div class="diff-badge diff-${ch.diff}">${diff === 'easy' ? 'سهل' : diff === 'medium' ? 'متوسط' : 'صعب'}</div>
+            <div class="xp-chip">⚡ ${ch.xp} XP</div>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          ${locked
+            ? `<button class="btn btn-locked btn-sm" onclick="unlockChallenge(event,'${ch.id}')">🎬 افتح بإعلان</button>`
+            : `<button class="btn btn-primary btn-sm" onclick="openChallenge('${ch.id}')">▶ ابدأ التحدي</button>`
+          }
+        </div>`;
+      grid.appendChild(el);
+    });
+  });
+}
+
+// =============================================
+// CHALLENGE ENGINE
+// =============================================
+function openChallenge(id) {
+  const ch = CHALLENGES.find(c => c.id === id);
+  if (!ch) return;
+
+  const locked = ch.locked && !STATE.unlockedIds.includes(ch.id);
+  if (locked) {
+    unlockChallenge(null, id);
+    return;
+  }
+
+  STATE.currentChallenge = ch;
+  STATE.currentLang = 'javascript';
+  STATE.solutionShown = false;
+
+  // Populate modal
+  document.getElementById('modal-title').textContent = ch.title;
+  document.getElementById('modal-diff').textContent = ch.diff === 'easy' ? '🟢 سهل' : ch.diff === 'medium' ? '🟡 متوسط' : '🔴 صعب';
+  document.getElementById('modal-diff').className = 'diff-badge diff-' + ch.diff;
+  document.getElementById('modal-xp').textContent = `⚡ ${ch.xp} XP`;
+  document.getElementById('modal-desc').innerHTML = ch.desc.replace(/\n/g, '<br>');
+  document.getElementById('code-editor').value = ch.tmpl_js;
+  document.getElementById('run-label').textContent = tx('run_btn');
+  document.getElementById('solution-btn').textContent = tx('solution_btn');
+
+  // Test cases
+  const list = document.getElementById('test-cases-list');
+  list.innerHTML = ch.tests.map(t =>
+    `<div class="test-case"><span class="test-in">Input: ${t.i}</span><span class="test-out">→ ${t.o}</span></div>`
+  ).join('');
+
+  // Reset output
+  const out = document.getElementById('output-area');
+  out.className = 'output-area';
+  out.textContent = '';
+  document.getElementById('result-banner').className = 'result-banner';
+
+  // Reset lang tabs
+  document.getElementById('tab-js').classList.add('active');
+  document.getElementById('tab-py').classList.remove('active');
+
+  // Open modal
+  document.getElementById('challenge-modal').classList.add('open');
+  document.getElementById('main').style.overflow = 'hidden';
+}
+
+function closeChallenge() {
+  document.getElementById('challenge-modal').classList.remove('open');
+  document.getElementById('main').style.overflow = '';
+  STATE.currentChallenge = null;
+}
+
+function setLang(lang) {
+  STATE.currentLang = lang;
+  const ch = STATE.currentChallenge;
+  if (!ch) return;
+
+  document.getElementById('tab-js').classList.toggle('active', lang === 'javascript');
+  document.getElementById('tab-py').classList.toggle('active', lang === 'python');
+
+  const editor = document.getElementById('code-editor');
+  if (lang === 'javascript') {
+    editor.value = ch.tmpl_js;
+    editor.style.color = '#a8d8a8';
+  } else {
+    editor.value = ch.tmpl_py;
+    editor.style.color = '#d8c4a8';
+  }
+
+  // Reset output
+  document.getElementById('output-area').className = 'output-area';
+  document.getElementById('output-area').textContent = '';
+  document.getElementById('result-banner').className = 'result-banner';
+}
+
+function resetCode() {
+  const ch = STATE.currentChallenge;
+  if (!ch) return;
+  const editor = document.getElementById('code-editor');
+  editor.value = STATE.currentLang === 'javascript' ? ch.tmpl_js : ch.tmpl_py;
+  document.getElementById('output-area').className = 'output-area';
+  document.getElementById('result-banner').className = 'result-banner';
+}
+
+async function runCode() {
+  const ch = STATE.currentChallenge;
+  if (!ch) return;
+  
+  const code = document.getElementById('code-editor').value.trim();
+  const runBtn = document.getElementById('run-btn');
+  const runIcon = document.getElementById('run-icon');
+  const outArea = document.getElementById('output-area');
+  const banner = document.getElementById('result-banner');
+  
+  if (!code) { showToast('الكود فارغ!', 'error'); return; }
+  
+  runBtn.disabled = true;
+  runIcon.innerHTML = '<span class="spinner"></span>';
+  outArea.className = 'output-area visible';
+  banner.className = 'result-banner';
+  
+  const language = STATE.currentLang;
+  
+  try {
+    let fullCode = code;
+    if (language === 'javascript' && ch.runner_js) {
+      fullCode = code + ch.runner_js;
+    }
+    
+    let result;
+    if (language === 'javascript') {
+      outArea.textContent = tx('loading');
+      result = await _runJS(fullCode);
+    } else {
+      outArea.textContent = 'جاري تحميل بيئة Python... (أول مرة قد تأخذ دقيقة)';
+      result = await _runPython(fullCode);
+    }
+    
+    const output = (result.output || '').trim();
+    const stderr = (result.stderr || '').trim();
+    
+    outArea.className = 'output-area visible' + (stderr && !output ? ' error' : '');
+    outArea.textContent = output + (stderr ? '\n⚠️ Errors:\n' + stderr : '');
+    
+    // Evaluate pass/fail (JS only)
+    if (language === 'javascript') {
+      const passMatch = output.match(/(\d+)\/(\d+)\s*اختبارات نجحت/);
+      if (passMatch) {
+        const passed = parseInt(passMatch[1]);
+        const total = parseInt(passMatch[2]);
+        if (passed === total && !STATE.solvedIds.includes(ch.id)) {
+          onChallengeSolved(ch);
+        } else if (passed === total) {
+          banner.className = 'result-banner success';
+          banner.textContent = tx('correct') + ` (${passed}/${total})`;
+        } else {
+          banner.className = 'result-banner fail';
+          banner.textContent = `${tx('wrong')} – ${passed}/${total} اختبارات نجحت`;
+        }
+      } else if (output.includes('❌')) {
+        banner.className = 'result-banner fail';
+        banner.textContent = tx('wrong');
+      } else if (output.includes('✅') && !output.includes('❌')) {
+        if (!STATE.solvedIds.includes(ch.id)) onChallengeSolved(ch);
+      }
+    }
+    
+  } catch (err) {
+    outArea.className = 'output-area visible error';
+    outArea.textContent = '⚠️ خطأ في تشغيل الكود:\n' + err.message;
+  } finally {
+    runBtn.disabled = false;
+    runIcon.textContent = '▶';
+  }
+}
+function onChallengeSolved(ch) {
+  STATE.solvedIds.push(ch.id);
+  saveState();
+  addXP(ch.xp);
+
+  const banner = document.getElementById('result-banner');
+  banner.className = 'result-banner success';
+  banner.textContent = txFn('won', ch.xp) + ` | +${ch.xp} XP`;
+
+  updateXPUI();
+  renderChallengesPage();
+  renderAchievements();
+
+  // Show interstitial after success
+  setTimeout(() => showInterstitial(), 1500);
+}
+
+function showSolution() {
+  const ch = STATE.currentChallenge;
+  if (!ch) return;
+
+  if (!STATE.solutionShown && !STATE.solvedIds.includes(ch.id)) {
+    showToast(tx('solve_first'), 'info', 3000);
+    showRewardedAd(() => {
+      STATE.solutionShown = true;
+      document.getElementById('code-editor').value = ch.solution_js;
+      showToast('💡 تم عرض الحل', 'success');
+    }, 'solution');
+    return;
+  }
+  document.getElementById('code-editor').value = ch.solution_js;
+  STATE.solutionShown = true;
+  showToast('💡 الحل معروض', 'info');
+}
+
+// Tab key in editor
+document.getElementById('code-editor').addEventListener('keydown', function(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = this.selectionStart, end = this.selectionEnd;
+    this.value = this.value.substring(0, s) + '  ' + this.value.substring(end);
+    this.selectionStart = this.selectionEnd = s + 2;
+  }
+});
+
+// =============================================
+// UNLOCK SYSTEM (Rewarded Ad)
+// =============================================
+function unlockChallenge(e, id) {
+  if (e) e.stopPropagation();
+  STATE.adCallback = () => {
+    if (!STATE.unlockedIds.includes(id)) STATE.unlockedIds.push(id);
+    saveState();
+    renderChallengesPage();
+    showToast('🔓 تم فتح التحدي!', 'success');
+    openChallenge(id);
+  };
+  showRewardedAd(STATE.adCallback, 'unlock');
+}
+
+// =============================================
+// AD SIMULATION SYSTEM
+// =============================================
+function showRewardedAd(callback, type = 'unlock') {
+  const modal = document.getElementById('ad-modal');
+  const title = document.getElementById('ad-title');
+  const desc  = document.getElementById('ad-desc');
+  const skip  = document.getElementById('ad-skip');
+  const count = document.getElementById('ad-countdown');
+
+  title.textContent = tx('unlock_title');
+  desc.textContent  = tx('unlock_desc');
+  skip.classList.remove('show');
+  count.textContent = '3';
+
+  modal.classList.add('open');
+
+  let secs = 3;
+  const total = 360; // degrees
+  const interval = setInterval(() => {
+    secs--;
+    count.textContent = secs;
+    const pct = ((3 - secs) / 3) * 360;
+    count.style.background = `conic-gradient(var(--primary) ${pct}deg, var(--border) ${pct}deg)`;
+    if (secs <= 0) {
+      clearInterval(interval);
+      closeAdModal();
+      if (callback) callback();
+    }
+  }, 1000);
+
+  // After 5s show skip (ad already done by then, but as UX)
+  setTimeout(() => skip.classList.add('show'), 3500);
+}
+
+function closeAdModal() {
+  document.getElementById('ad-modal').classList.remove('open');
+}
+
+function skipAd() {
+  closeAdModal();
+  showToast('تم تخطي الإعلان', 'info');
+}
+
+// =============================================
+// INTERSTITIAL AD SIMULATION
+// =============================================
+function showInterstitial() {
+  const modal = document.getElementById('interstitial');
+  const close = document.getElementById('inter-close');
+  const sub   = document.getElementById('inter-sub');
+
+  close.style.display = 'none';
+  sub.textContent = 'يمكنك الإغلاق بعد 2 ثانية';
+  modal.classList.add('open');
+  // TODO: Replace with AdMob interstitial SDK call
+
+  setTimeout(() => {
+    close.style.display = 'flex';
+    sub.textContent = '';
+  }, 2000);
+}
+
+function closeInterstitial() {
+  document.getElementById('interstitial').classList.remove('open');
+}
+
+// =============================================
+// SUDAN MODE TOGGLE
+// =============================================
+function toggleSudanMode() {
+  STATE.sudanMode = !STATE.sudanMode;
+  saveState();
+  applyTexts();
+  const tog = document.getElementById('sudan-toggle');
+  const lbl = document.getElementById('toggle-label');
+  if (STATE.sudanMode) {
+    tog.classList.add('active');
+    lbl.textContent = 'Sudan Mode 🔥';
+    tog.querySelector('.flag').textContent = '🇸🇩';
+    showToast('🇸🇩 Sudan Mode شغّال يا زول!', 'success');
+  } else {
+    tog.classList.remove('active');
+    lbl.textContent = 'عادي';
+    tog.querySelector('.flag').textContent = '🟢';
+    showToast('Sudan Mode إيقاف', 'info');
+  }
+}
+
+function applyTexts() {
+  // Update all dynamic text elements
+  document.getElementById('loading-text').textContent = tx('loading');
+  document.getElementById('run-label').textContent = tx('run_btn');
+  document.getElementById('solution-btn').textContent = tx('solution_btn');
+  document.getElementById('feed-title').textContent = tx('feed_title');
+
+  // Update streak banner if visible
+  if (STATE.streak > 0) {
+    document.getElementById('streak-banner-title').textContent = txFn('streak_msg', STATE.streak);
+    document.getElementById('streak-banner-sub').textContent = tx('streak_sub');
+  }
+}
+
+// =============================================
+// SHARE SYSTEM
+// =============================================
+function shareItem(e, encodedText) {
+  e.stopPropagation();
+  const text = decodeURIComponent(encodedText);
+  if (navigator.share) {
+    navigator.share({
+      title: 'DevArena Sudan Edition',
+      text: text + '\n\n#DevArena #SudanCodes'
+    }).catch(() => fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function copyCode(e, encodedCode) {
+  e.stopPropagation();
+  const code = decodeURIComponent(encodedCode);
+  fallbackCopy(code);
+}
+
+function fallbackCopy(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast(tx('share_copied'), 'success')).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast(tx('share_copied'), 'success'); } catch {}
+    document.body.removeChild(ta);
+  }
+}
+
+// =============================================
+// NAVIGATION
+// =============================================
+function navigate(page) {
+  STATE.currentPage = page;
+  ['feed', 'challenges', 'profile'].forEach(p => {
+    document.getElementById(p + '-page').classList.toggle('active', p === page);
+    document.getElementById('nav-' + (p === 'feed' ? 'feed' : p === 'challenges' ? 'challenges' : 'profile')).classList.toggle('active', p === page);
+  });
+
+  if (page === 'challenges') renderChallengesPage();
+  if (page === 'profile') { updateXPUI(); renderAchievements(); }
+
+  // Show interstitial on page change (sometimes)
+  if (page !== 'feed' && Math.random() < 0.3) {
+    setTimeout(() => showInterstitial(), 1000);
+  }
+}
+
+// =============================================
+// ACHIEVEMENTS
+// =============================================
+const ACHIEVEMENTS = [
+  { id: 'first_solve', icon: '🏅', name: 'أول خطوة', desc: 'حل تحديك الأول', check: () => STATE.solvedIds.length >= 1 },
+  { id: 'three_solve', icon: '🥇', name: 'محترف', desc: 'حل 3 تحديات', check: () => STATE.solvedIds.length >= 3 },
+  { id: 'all_easy', icon: '💚', name: 'السهل خلص', desc: 'حل كل التحديات السهلة', check: () => CHALLENGES.filter(c=>c.diff==='easy').every(c=>STATE.solvedIds.includes(c.id)) },
+  { id: 'hard_unlock', icon: '🔓', name: 'مغامر', desc: 'فتح تحدي صعب', check: () => STATE.unlockedIds.length >= 1 },
+  { id: 'streak_3', icon: '🔥', name: 'مداوم', desc: '3 أيام متتالية', check: () => STATE.streak >= 3 },
+  { id: 'xp_100', icon: '⭐', name: 'مئة XP', desc: 'جمع 100 XP', check: () => STATE.xp >= 100 }
+];
+
+function renderAchievements() {
+  const list = document.getElementById('achievements-list');
+  if (!list) return;
+  list.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = a.check();
+    return `<div class="achievement ${unlocked ? '' : 'locked'}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-info">
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${a.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// =============================================
+// UTILS
+// =============================================
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// =============================================
+// INITIALIZATION
+// =============================================
+async function init() {
+  // Load saved state
+  loadState();
+
+  // Apply Sudan mode if active
+  if (STATE.sudanMode) {
+    const tog = document.getElementById('sudan-toggle');
+    const lbl = document.getElementById('toggle-label');
+    tog.classList.add('active');
+    lbl.textContent = 'Sudan Mode 🔥';
+    tog.querySelector('.flag').textContent = '🇸🇩';
+  }
+
+  // Check streak
+  checkStreak();
+
+  // Update UI with saved state
+  updateXPUI();
+
+  // Show welcome back toast
+  const isReturning = STATE.streak > 1;
+  if (isReturning) {
+    setTimeout(() => showToast(tx('welcome_back'), 'info'), 800);
+  } else {
+    setTimeout(() => showToast(tx('challenge_rdy'), 'info'), 800);
+  }
+
+  // Init feed
+  setupInfiniteScroll();
+  await initFeed();
+}
+
+// Start the app
+document.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
