@@ -14,13 +14,19 @@ jobs:
           node-version: '20'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Capacitor CLI
+        run: npm install -g @capacitor/cli
+
       - name: Install Dependencies
         run: npm install
+
+      - name: Ensure WWW directory exists
+        run: mkdir -p www && touch www/index.html
 
       - name: Capacitor Sync
         run: npx cap sync android
